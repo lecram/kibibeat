@@ -1,0 +1,12 @@
+Error kinvert(KRuntime *kruntime);
+Error kclear(KRuntime *kruntime);
+Error kor(KRuntime *kruntime);
+Error kand(KRuntime *kruntime);
+Error krepeat(KRuntime *kruntime);
+Error kpattern(KRuntime *kruntime);
+Error krleft(KRuntime *kruntime);
+Error krright(KRuntime *kruntime);
+Error kpleft(KRuntime *kruntime);
+Error kpright(KRuntime *kruntime);
+Error ksubdiv(KRuntime *kruntime);
+Error kset(KRuntime *kruntime);
