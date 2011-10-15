@@ -228,17 +228,17 @@ void
 repblist(KBlist *kblist, char *buffer)
 {
     char *brep;
-    KBnode *KBnode = kblist->first;
+    KBnode *kbnode = kblist->first;
 
     brep = buffer;
     *brep = '[';
-    while (KBnode != NULL) {
+    while (kbnode != NULL) {
         brep++;
-        if (KBnode->beat)
+        if (kbnode->beat)
             *brep = '+';
         else
             *brep = '-';
-        KBnode = KBnode->next;
+        kbnode = kbnode->next;
     }
     brep++;
     *brep = ']';
