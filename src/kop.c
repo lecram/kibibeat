@@ -25,7 +25,7 @@ kinvert(KRuntime *kruntime)
         return E_TYPE;
     kbnode = ((KBlist *) kob)->first;
     while (kbnode != NULL) {
-        kbnode->beat = 1 - kbnode->beat;
+        kbnode->beat = !kbnode->beat;
         kbnode = kbnode->next;
     }
     return E_OK;
@@ -60,6 +60,7 @@ Error
 kor(KRuntime *kruntime)
 {
     Kob *kob_a, *kob_b;
+    KBnode *kbnode_a, *kbnode_b;
 
     if (slength(kruntime->stack) < 2U)
         return E_ARITY;
@@ -79,6 +80,15 @@ kor(KRuntime *kruntime)
     }
     if (*kob_a != T_BLIST  ||  *kob_b != T_BLIST)
         return E_TYPE;
+    kbnode_a = ((KBlist *) kob_a)->first;
+    kbnode_b = ((KBlist *) kob_b)->first;
+    while (kbnode_a != NULL  &&  kbnode_b != NULL) {
+        kbnode_a->beat = kbnode_a->beat | kbnode_b->beat;
+        kbnode_a = kbnode_a->next;
+        kbnode_b = kbnode_b->next;
+    }
+    kruntime->stack = kruntime->stack->next;
+    delblist((KBlist **) &kob_b);
     return E_OK;
 }
 
@@ -86,6 +96,7 @@ Error
 kand(KRuntime *kruntime)
 {
     Kob *kob_a, *kob_b;
+    KBnode *kbnode_a, *kbnode_b;
 
     if (slength(kruntime->stack) < 2U)
         return E_ARITY;
@@ -105,6 +116,15 @@ kand(KRuntime *kruntime)
     }
     if (*kob_a != T_BLIST  ||  *kob_b != T_BLIST)
         return E_TYPE;
+    kbnode_a = ((KBlist *) kob_a)->first;
+    kbnode_b = ((KBlist *) kob_b)->first;
+    while (kbnode_a != NULL  &&  kbnode_b != NULL) {
+        kbnode_a->beat = kbnode_a->beat & kbnode_b->beat;
+        kbnode_a = kbnode_a->next;
+        kbnode_b = kbnode_b->next;
+    }
+    kruntime->stack = kruntime->stack->next;
+    delblist((KBlist **) &kob_b);
     return E_OK;
 }
 
