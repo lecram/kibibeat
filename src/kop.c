@@ -132,6 +132,7 @@ Error
 krepeat(KRuntime *kruntime)
 {
     Kob *kob_a, *kob_b;
+    KBlist *kblist;
 
     if (slength(kruntime->stack) < 2U)
         return E_ARITY;
@@ -151,6 +152,12 @@ krepeat(KRuntime *kruntime)
     }
     if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER)
         return E_TYPE;
+    kblist = cpyblist((KBlist *) kob_a);
+    for (; ((KNumber *) kob_b)->value > 1; ((KNumber *) kob_b)->value--)
+        blist_extend((KBlist *) kob_a, kblist);
+    delblist(&kblist);
+    kruntime->stack = kruntime->stack->next;
+    delnumber((KNumber **) &kob_b);
     return E_OK;
 }
 
