@@ -9,7 +9,7 @@
 int
 main(int argc, char *argv[])
 {
-    char *tokens[] = {"$foo", "$bar", "[+--+-]", "=", "2", "<<", "=", ""};
+    char *tokens[] = {"$foo", "$bar", "[+--+-]", "=", "3", "+", "<", "=", ""};
     int i;
     KRuntime *kruntime;
     KBuffer *kbuffer;

@@ -277,6 +277,7 @@ Error
 kpleft(KRuntime *kruntime)
 {
     Kob *kob_a, *kob_b, *kob_c;
+    KBlist *kblist;
 
     if (slength(kruntime->stack) < 3U)
         return E_ARITY;
@@ -303,6 +304,12 @@ kpleft(KRuntime *kruntime)
     }
     if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER  ||  *kob_c != T_BEAT)
         return E_TYPE;
+    kblist = (KBlist *) kob_a;
+    for (; ((KNumber *) kob_b)->value > 0; ((KNumber *) kob_b)->value--)
+        blist_insert(kblist, kblist->length, ((KBeat *) kob_c)->value);
+    kruntime->stack = kruntime->stack->next->next;
+    delnumber((KNumber **) &kob_b);
+    delbeat((KBeat **) &kob_c);
     return E_OK;
 }
 
@@ -310,6 +317,7 @@ Error
 kpright(KRuntime *kruntime)
 {
     Kob *kob_a, *kob_b, *kob_c;
+    KBlist *kblist;
 
     if (slength(kruntime->stack) < 3U)
         return E_ARITY;
@@ -336,6 +344,12 @@ kpright(KRuntime *kruntime)
     }
     if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER  ||  *kob_c != T_BEAT)
         return E_TYPE;
+    kblist = (KBlist *) kob_a;
+    for (; ((KNumber *) kob_b)->value > 0; ((KNumber *) kob_b)->value--)
+        blist_insert(kblist, 0, ((KBeat *) kob_c)->value);
+    kruntime->stack = kruntime->stack->next->next;
+    delnumber((KNumber **) &kob_b);
+    delbeat((KBeat **) &kob_c);
     return E_OK;
 }
 
