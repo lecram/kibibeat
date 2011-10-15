@@ -165,6 +165,8 @@ Error
 kpattern(KRuntime *kruntime)
 {
     Kob *kob_a, *kob_b;
+    KBlist *silence, *result;
+    KBnode *kbnode;
 
     if (slength(kruntime->stack) < 2U)
         return E_ARITY;
@@ -184,6 +186,26 @@ kpattern(KRuntime *kruntime)
     }
     if (*kob_a != T_BLIST  ||  *kob_b != T_BLIST)
         return E_TYPE;
+    silence = newblist();
+    kbnode = ((KBlist *) kob_a)->first;
+    while (kbnode != NULL) {
+        blist_insert(silence, 0, 0);
+        kbnode = kbnode->next;
+    }
+    result = newblist();
+    kbnode = ((KBlist *) kob_b)->first;
+    while (kbnode != NULL) {
+        if (kbnode->beat)
+            blist_extend(result, (KBlist *) kob_a);
+        else
+            blist_extend(result, silence);
+        kbnode = kbnode->next;
+    }
+    delblist(&silence);
+    kruntime->stack = kruntime->stack->next;
+    kruntime->stack->kob = (Kob *) result;
+    delblist((KBlist **) &kob_b);
+    delblist((KBlist **) &kob_a);
     return E_OK;
 }
 
