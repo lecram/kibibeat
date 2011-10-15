@@ -65,6 +65,20 @@ kor(KRuntime *kruntime)
         return E_ARITY;
     kob_b = kruntime->stack->kob;
     kob_a = kruntime->stack->next->kob;
+    if (*kob_b == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
+            kruntime->stack->kob = kob_b = cpykob(kob_b);
+        else
+            return E_NAME;
+    }
+    if (*kob_a == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
+            kob_a = cpykob(kob_a);
+        else
+            return E_NAME;
+    }
+    if (*kob_a != T_BLIST  ||  *kob_b != T_BLIST)
+        return E_TYPE;
     return E_OK;
 }
 
@@ -77,6 +91,20 @@ kand(KRuntime *kruntime)
         return E_ARITY;
     kob_b = kruntime->stack->kob;
     kob_a = kruntime->stack->next->kob;
+    if (*kob_b == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
+            kruntime->stack->kob = kob_b = cpykob(kob_b);
+        else
+            return E_NAME;
+    }
+    if (*kob_a == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
+            kob_a = cpykob(kob_a);
+        else
+            return E_NAME;
+    }
+    if (*kob_a != T_BLIST  ||  *kob_b != T_BLIST)
+        return E_TYPE;
     return E_OK;
 }
 
@@ -89,6 +117,20 @@ krepeat(KRuntime *kruntime)
         return E_ARITY;
     kob_b = kruntime->stack->kob;
     kob_a = kruntime->stack->next->kob;
+    if (*kob_b == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
+            kruntime->stack->kob = kob_b = cpykob(kob_b);
+        else
+            return E_NAME;
+    }
+    if (*kob_a == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
+            kob_a = cpykob(kob_a);
+        else
+            return E_NAME;
+    }
+    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER)
+        return E_TYPE;
     return E_OK;
 }
 
@@ -101,6 +143,20 @@ kpattern(KRuntime *kruntime)
         return E_ARITY;
     kob_b = kruntime->stack->kob;
     kob_a = kruntime->stack->next->kob;
+    if (*kob_b == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
+            kruntime->stack->kob = kob_b = cpykob(kob_b);
+        else
+            return E_NAME;
+    }
+    if (*kob_a == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
+            kob_a = cpykob(kob_a);
+        else
+            return E_NAME;
+    }
+    if (*kob_a != T_BLIST  ||  *kob_b != T_BLIST)
+        return E_TYPE;
     return E_OK;
 }
 
@@ -113,6 +169,20 @@ krleft(KRuntime *kruntime)
         return E_ARITY;
     kob_b = kruntime->stack->kob;
     kob_a = kruntime->stack->next->kob;
+    if (*kob_b == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
+            kruntime->stack->kob = kob_b = cpykob(kob_b);
+        else
+            return E_NAME;
+    }
+    if (*kob_a == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
+            kob_a = cpykob(kob_a);
+        else
+            return E_NAME;
+    }
+    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER)
+        return E_TYPE;
     return E_OK;
 }
 
@@ -125,6 +195,20 @@ krright(KRuntime *kruntime)
         return E_ARITY;
     kob_b = kruntime->stack->kob;
     kob_a = kruntime->stack->next->kob;
+    if (*kob_b == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
+            kruntime->stack->kob = kob_b = cpykob(kob_b);
+        else
+            return E_NAME;
+    }
+    if (*kob_a == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
+            kob_a = cpykob(kob_a);
+        else
+            return E_NAME;
+    }
+    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER)
+        return E_TYPE;
     return E_OK;
 }
 
@@ -138,6 +222,26 @@ kpleft(KRuntime *kruntime)
     kob_c = kruntime->stack->kob;
     kob_b = kruntime->stack->next->kob;
     kob_a = kruntime->stack->next->next->kob;
+    if (*kob_c == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_c)->name, &kob_c) == 1)
+            kruntime->stack->kob = kob_c = cpykob(kob_c);
+        else
+            return E_NAME;
+    }
+    if (*kob_b == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
+            kob_b = cpykob(kob_b);
+        else
+            return E_NAME;
+    }
+    if (*kob_a == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
+            kob_a = cpykob(kob_a);
+        else
+            return E_NAME;
+    }
+    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER  ||  *kob_c != T_BEAT)
+        return E_TYPE;
     return E_OK;
 }
 
@@ -151,6 +255,26 @@ kpright(KRuntime *kruntime)
     kob_c = kruntime->stack->kob;
     kob_b = kruntime->stack->next->kob;
     kob_a = kruntime->stack->next->next->kob;
+    if (*kob_c == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_c)->name, &kob_c) == 1)
+            kruntime->stack->kob = kob_c = cpykob(kob_c);
+        else
+            return E_NAME;
+    }
+    if (*kob_b == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
+            kob_b = cpykob(kob_b);
+        else
+            return E_NAME;
+    }
+    if (*kob_a == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
+            kob_a = cpykob(kob_a);
+        else
+            return E_NAME;
+    }
+    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER  ||  *kob_c != T_BEAT)
+        return E_TYPE;
     return E_OK;
 }
 
@@ -164,6 +288,26 @@ ksubdiv(KRuntime *kruntime)
     kob_c = kruntime->stack->kob;
     kob_b = kruntime->stack->next->kob;
     kob_a = kruntime->stack->next->next->kob;
+    if (*kob_c == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_c)->name, &kob_c) == 1)
+            kruntime->stack->kob = kob_c = cpykob(kob_c);
+        else
+            return E_NAME;
+    }
+    if (*kob_b == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
+            kob_b = cpykob(kob_b);
+        else
+            return E_NAME;
+    }
+    if (*kob_a == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
+            kob_a = cpykob(kob_a);
+        else
+            return E_NAME;
+    }
+    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER  ||  *kob_c != T_NUMBER)
+        return E_TYPE;
     return E_OK;
 }
 
@@ -176,9 +320,18 @@ kset(KRuntime *kruntime)
         return E_ARITY;
     kob_b = kruntime->stack->kob;
     kob_a = kruntime->stack->next->kob;
-    while (*kob_b == T_NAME)
-        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 0)
+    if (*kob_b == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
+            kruntime->stack->kob = kob_b = cpykob(kob_b);
+        else
             return E_NAME;
+    }
+    if (*kob_a == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
+            kob_a = cpykob(kob_a);
+        else
+            return E_NAME;
+    }
     if (*kob_a != T_NAME)
         return E_TYPE;
     tset(kruntime->nable, ((KName *) kob_a)->name, cpykob(kob_b));
