@@ -326,12 +326,6 @@ kset(KRuntime *kruntime)
         else
             return E_NAME;
     }
-    if (*kob_a == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
-            kob_a = cpykob(kob_a);
-        else
-            return E_NAME;
-    }
     if (*kob_a != T_NAME)
         return E_TYPE;
     tset(kruntime->nable, ((KName *) kob_a)->name, cpykob(kob_b));
