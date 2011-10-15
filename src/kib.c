@@ -9,17 +9,15 @@
 int
 main(int argc, char *argv[])
 {
+    char *tokens[] = {"$bar", "$foo", "[+-+-]", "[++--]", "|", "=", "~", "=", ""};
+    int i;
     KRuntime *kruntime;
     KBuffer *kbuffer;
 
     kruntime = newruntime();
     kbuffer = newbuffer();
-    kprocess(kruntime, "$bar");
-    kprocess(kruntime, "$foo");
-    kprocess(kruntime, "[+-+]");
-    kprocess(kruntime, "=");
-    kprocess(kruntime, "~");
-    kprocess(kruntime, "=");
+    for (i = 0; *tokens[i] != '\0'; i++)
+        kprocess(kruntime, tokens[i]);
     repnable(kruntime->nable, kbuffer);
     printf("%s\n", kbuffer->buffer);
 
