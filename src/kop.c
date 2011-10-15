@@ -15,9 +15,12 @@ kinvert(KRuntime *kruntime)
     if (slength(kruntime->stack) < 1U)
         return E_ARITY;
     kob = kruntime->stack->kob;
-    while (*kob == T_NAME)
-        if (tget(kruntime->nable, ((KName *) kob)->name, &kob) == 0)
+    if (*kob == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob)->name, &kob) == 1)
+            kruntime->stack->kob = kob = cpykob(kob);
+        else
             return E_NAME;
+    }
     if (*kob != T_BLIST)
         return E_TYPE;
     kbnode = ((KBlist *) kob)->first;
@@ -37,9 +40,12 @@ kclear(KRuntime *kruntime)
     if (slength(kruntime->stack) < 1U)
         return E_ARITY;
     kob = kruntime->stack->kob;
-    while (*kob == T_NAME)
-        if (tget(kruntime->nable, ((KName *) kob)->name, &kob) == 0)
+    if (*kob == T_NAME) {
+        if (tget(kruntime->nable, ((KName *) kob)->name, &kob) == 1)
+            kruntime->stack->kob = kob = cpykob(kob);
+        else
             return E_NAME;
+    }
     if (*kob != T_BLIST)
         return E_TYPE;
     kbnode = ((KBlist *) kob)->first;
