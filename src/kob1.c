@@ -318,6 +318,18 @@ repstack(KStack *kstack, KBuffer *kbuffer)
 }
 
 
+unsigned int
+slength(KStack *kstack)
+{
+    unsigned int length = 0;
+
+    while (kstack != NULL) {
+        length++;
+        kstack = kstack->next;
+    }
+    return length;
+}
+
 void
 spush(KStack **kstack, Kob *kob)
 {

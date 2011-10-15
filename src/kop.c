@@ -12,6 +12,8 @@ kinvert(KRuntime *kruntime)
     Kob *kob;
     KBnode *kbnode;
 
+    if (slength(kruntime->stack) < 1U)
+        return E_ARITY;
     kob = kruntime->stack->kob;
     while (*kob == T_NAME)
         if (tget(kruntime->nable, ((KName *) kob)->name, &kob) == 0)
@@ -32,6 +34,8 @@ kclear(KRuntime *kruntime)
     Kob *kob;
     KBnode *kbnode;
 
+    if (slength(kruntime->stack) < 1U)
+        return E_ARITY;
     kob = kruntime->stack->kob;
     while (*kob == T_NAME)
         if (tget(kruntime->nable, ((KName *) kob)->name, &kob) == 0)
@@ -49,54 +53,72 @@ kclear(KRuntime *kruntime)
 Error
 kor(KRuntime *kruntime)
 {
+    if (slength(kruntime->stack) < 2U)
+        return E_ARITY;
     return E_OK;
 }
 
 Error
 kand(KRuntime *kruntime)
 {
+    if (slength(kruntime->stack) < 2U)
+        return E_ARITY;
     return E_OK;
 }
 
 Error
 krepeat(KRuntime *kruntime)
 {
+    if (slength(kruntime->stack) < 2U)
+        return E_ARITY;
     return E_OK;
 }
 
 Error
 kpattern(KRuntime *kruntime)
 {
+    if (slength(kruntime->stack) < 2U)
+        return E_ARITY;
     return E_OK;
 }
 
 Error
 krleft(KRuntime *kruntime)
 {
+    if (slength(kruntime->stack) < 2U)
+        return E_ARITY;
     return E_OK;
 }
 
 Error
 krright(KRuntime *kruntime)
 {
+    if (slength(kruntime->stack) < 2U)
+        return E_ARITY;
     return E_OK;
 }
 
 Error
 kpleft(KRuntime *kruntime)
 {
+    if (slength(kruntime->stack) < 3U)
+        return E_ARITY;
     return E_OK;
 }
 
 Error
 kpright(KRuntime *kruntime)
 {
+    if (slength(kruntime->stack) < 3U)
+        return E_ARITY;
     return E_OK;
 }
 
 Error
 ksubdiv(KRuntime *kruntime)
 {
+    if (slength(kruntime->stack) < 3U)
+        return E_ARITY;
     return E_OK;
 }
 
@@ -105,6 +127,8 @@ kset(KRuntime *kruntime)
 {
     Kob *kob_b, *kob_a;
 
+    if (slength(kruntime->stack) < 2U)
+        return E_ARITY;
     kob_b = kruntime->stack->kob;
     while (*kob_b == T_NAME)
         if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 0)

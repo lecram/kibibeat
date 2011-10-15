@@ -39,5 +39,6 @@ void delstack(KStack **kstack);
 size_t repsizestack(KStack *kstack);
 void repstack(KStack *kstack, KBuffer *kbuffer);
 
+unsigned int slength(KStack *kstack);
 void spush(KStack **kstack, Kob *kob);
 Kob *spop(KStack **kstack);
