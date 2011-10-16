@@ -10,10 +10,13 @@ endif
 
 I = include/
 
-objects = kob0.o kob1.o kps.o kop.o krt.o kib.o
+objects = ker.o kob0.o kob1.o kps.o kop.o krt.o kib.o
 
 dist : $(objects)
 	$(CC) -o kib$(BINEXT) $(objects)
+
+ker.o : ker.c $(I)ker.h
+	$(CC) -c $(CFLAGS) ker.c
 
 kob0.o : kob0.c $(I)kob0.h
 	$(CC) -c $(CFLAGS) kob0.c

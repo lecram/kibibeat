@@ -11,8 +11,8 @@
 #define MAX_LINE_LEN 256
 #define MAX_TOKEN_LEN 32
 
-Error
-interactive()
+void
+interactive(KReport *kreport)
 {
     char line[MAX_LINE_LEN];
     char token[MAX_TOKEN_LEN];
@@ -21,7 +21,6 @@ interactive()
     unsigned int token_id;
     KRuntime *kruntime;
     KBuffer *kbuffer;
-    Error error;
 
     kruntime = newruntime();
     kbuffer = newbuffer();
@@ -33,34 +32,44 @@ interactive()
         if (strcmp(line, "exit\n") == 0)
             break;
         else {
-            token_id = 0;
+            kreport->token_id = 0;
             c = line;
             while (1) {
                 while (isspace(*c) && *c != '\n')
                     c++;
                 if (*c == '\n')
                     break;
-                token_id++;
+                kreport->token_id++;
                 for (i = 0; !isspace(*c); i++, c++)
                     token[i] = *c;
                 token[i] = '\0';
-                error = kprocess(kruntime, token);
-                if (error != E_OK) return error;
+                kreport->error = kprocess(kruntime, token);
+                if (kreport->error != E_OK) return;
             }
+        repstack(kruntime->stack, kbuffer);
+        printf("%s\n", kbuffer->buffer);
         repnable(kruntime->nable, kbuffer);
         printf("%s\n", kbuffer->buffer);
         }
     }
     delruntime(&kruntime);
     delbuffer(&kbuffer);
-    return E_OK;
 }
 
 int
 main(int argc, char *argv[])
 {
-    if (argc == 1)
-        interactive();
+    KReport kreport;
 
+    kreport.error = E_OK;
+    kreport.line_id = 1;
+    kreport.token_id = 1;
+    if (argc == 1)
+        interactive(&kreport);
+
+    if (kreport.error != E_OK) {
+        printreport(kreport);
+        return 1;
+    }
     return 0;
 }
