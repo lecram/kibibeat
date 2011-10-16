@@ -46,10 +46,10 @@ interactive(KReport *kreport)
                 kreport->error = kprocess(kruntime, token);
                 if (kreport->error != E_OK) return;
             }
-        repstack(kruntime->stack, kbuffer);
-        printf("%s\n", kbuffer->buffer);
-        repnable(kruntime->nable, kbuffer);
-        printf("%s\n", kbuffer->buffer);
+            repstack(kruntime->stack, kbuffer);
+            printf("%s\n", kbuffer->buffer);
+            repnable(kruntime->nable, kbuffer);
+            printf("%s\n", kbuffer->buffer);
         }
     }
     delruntime(&kruntime);
