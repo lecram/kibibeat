@@ -5,7 +5,10 @@
 void
 printreport(KReport kreport)
 {
-    printf("%u:%u: ", kreport.line_id, kreport.token_id);
+    printf("%s:%u:%u: ",
+           kreport.filename,
+           kreport.line_id,
+           kreport.token_id);
     switch(kreport.error) {
         case E_OK:
             puts("Ok.");
@@ -21,6 +24,9 @@ printreport(KReport kreport)
             break;
         case E_SYNTAX:
             puts("Syntax error.");
+            break;
+        case E_FILE:
+            puts("File error.");
             break;
     }
 }
