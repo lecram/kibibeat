@@ -402,14 +402,14 @@ kset(KRuntime *kruntime)
     kob_a = kruntime->stack->next->kob;
     if (*kob_b == T_NAME) {
         if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kruntime->stack->kob = kob_b = cpykob(kob_b);
+            kob_b = cpykob(kob_b);
         else
             return E_NAME;
     }
     if (*kob_a != T_NAME)
         return E_TYPE;
-    tset(kruntime->nable, ((KName *) kob_a)->name, cpykob(kob_b));
-    kruntime->stack->next = kruntime->stack->next->next;
+    tset(kruntime->nable, ((KName *) kob_a)->name, kob_b);
+    kruntime->stack = kruntime->stack->next->next;
     delname((KName **) &kob_a);
     return E_OK;
 }
