@@ -68,7 +68,7 @@ kor(KRuntime *kruntime)
     kob_a = kruntime->stack->next->kob;
     if (*kob_b == T_NAME) {
         if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kruntime->stack->kob = kob_b = cpykob(kob_b);
+            kob_b = cpykob(kob_b);
         else
             return E_NAME;
     }
@@ -88,6 +88,7 @@ kor(KRuntime *kruntime)
         kbnode_b = kbnode_b->next;
     }
     kruntime->stack = kruntime->stack->next;
+    kruntime->stack->kob = kob_a;
     delblist((KBlist **) &kob_b);
     return E_OK;
 }
@@ -124,6 +125,7 @@ kand(KRuntime *kruntime)
         kbnode_b = kbnode_b->next;
     }
     kruntime->stack = kruntime->stack->next;
+    kruntime->stack->kob = kob_a;
     delblist((KBlist **) &kob_b);
     return E_OK;
 }
@@ -140,7 +142,7 @@ krepeat(KRuntime *kruntime)
     kob_a = kruntime->stack->next->kob;
     if (*kob_b == T_NAME) {
         if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kruntime->stack->kob = kob_b = cpykob(kob_b);
+            kob_b = cpykob(kob_b);
         else
             return E_NAME;
     }
@@ -157,6 +159,7 @@ krepeat(KRuntime *kruntime)
         blist_extend((KBlist *) kob_a, kblist);
     delblist(&kblist);
     kruntime->stack = kruntime->stack->next;
+    kruntime->stack->kob = kob_a;
     delnumber((KNumber **) &kob_b);
     return E_OK;
 }
@@ -174,7 +177,7 @@ kpattern(KRuntime *kruntime)
     kob_a = kruntime->stack->next->kob;
     if (*kob_b == T_NAME) {
         if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kruntime->stack->kob = kob_b = cpykob(kob_b);
+            kob_b = cpykob(kob_b);
         else
             return E_NAME;
     }
@@ -221,7 +224,7 @@ krleft(KRuntime *kruntime)
     kob_a = kruntime->stack->next->kob;
     if (*kob_b == T_NAME) {
         if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kruntime->stack->kob = kob_b = cpykob(kob_b);
+            kob_b = cpykob(kob_b);
         else
             return E_NAME;
     }
@@ -237,6 +240,7 @@ krleft(KRuntime *kruntime)
     for (; ((KNumber *) kob_b)->value > 0; ((KNumber *) kob_b)->value--)
         blist_insert(kblist, kblist->length, blist_remove(kblist, 0));
     kruntime->stack = kruntime->stack->next;
+    kruntime->stack->kob = kob_a;
     delnumber((KNumber **) &kob_b);
     return E_OK;
 }
@@ -253,7 +257,7 @@ krright(KRuntime *kruntime)
     kob_a = kruntime->stack->next->kob;
     if (*kob_b == T_NAME) {
         if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kruntime->stack->kob = kob_b = cpykob(kob_b);
+            kob_b = cpykob(kob_b);
         else
             return E_NAME;
     }
@@ -269,6 +273,7 @@ krright(KRuntime *kruntime)
     for (; ((KNumber *) kob_b)->value > 0; ((KNumber *) kob_b)->value--)
         blist_insert(kblist, 0, blist_remove(kblist, -1));
     kruntime->stack = kruntime->stack->next;
+    kruntime->stack->kob = kob_a;
     delnumber((KNumber **) &kob_b);
     return E_OK;
 }
@@ -286,7 +291,7 @@ kpleft(KRuntime *kruntime)
     kob_a = kruntime->stack->next->next->kob;
     if (*kob_c == T_NAME) {
         if (tget(kruntime->nable, ((KName *) kob_c)->name, &kob_c) == 1)
-            kruntime->stack->kob = kob_c = cpykob(kob_c);
+            kob_c = cpykob(kob_c);
         else
             return E_NAME;
     }
@@ -326,7 +331,7 @@ kpright(KRuntime *kruntime)
     kob_a = kruntime->stack->next->next->kob;
     if (*kob_c == T_NAME) {
         if (tget(kruntime->nable, ((KName *) kob_c)->name, &kob_c) == 1)
-            kruntime->stack->kob = kob_c = cpykob(kob_c);
+            kob_c = cpykob(kob_c);
         else
             return E_NAME;
     }
@@ -365,7 +370,7 @@ ksubdiv(KRuntime *kruntime)
     kob_a = kruntime->stack->next->next->kob;
     if (*kob_c == T_NAME) {
         if (tget(kruntime->nable, ((KName *) kob_c)->name, &kob_c) == 1)
-            kruntime->stack->kob = kob_c = cpykob(kob_c);
+            kob_c = cpykob(kob_c);
         else
             return E_NAME;
     }
