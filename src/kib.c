@@ -18,7 +18,6 @@ interactive(KReport *kreport)
     char token[MAX_TOKEN_LEN];
     char *c;
     int i;
-    unsigned int token_id;
     KRuntime *kruntime;
     KBuffer *kbuffer;
 
@@ -64,7 +63,6 @@ run(KReport *kreport)
     char token[MAX_TOKEN_LEN];
     char *c;
     int i;
-    unsigned int token_id;
     KRuntime *kruntime;
     KBuffer *kbuffer;
 
