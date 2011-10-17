@@ -2,8 +2,10 @@
 
 ifeq ($(CC), cc)
 CFLAGS = -Wall -Werror -O2 -I include
+CLINK = -lm
 else ifeq ($(CC), gcc)
 CFLAGS = -Wall -Werror -O2 -I include
+CLINK = -lm
 else ifeq ($(CC), tcc)
 CFLAGS = -Wall -Werror -Wunsupported -Iinclude
 endif
@@ -13,7 +15,7 @@ I = include/
 objects = ker.o kob0.o kob1.o kps.o kop.o krt.o kib.o
 
 dist : $(objects)
-	$(CC) -o kib$(BINEXT) $(objects)
+	$(CC) -o kib$(BINEXT) $(objects) $(CLINK)
 
 ker.o : ker.c $(I)ker.h
 	$(CC) -c $(CFLAGS) ker.c
