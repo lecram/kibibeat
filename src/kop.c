@@ -7,386 +7,256 @@
 #include "kop.h"
 
 Error
+kgetargs(KRuntime *kruntime, int arity, Kob *args[])
+{
+    if (slength(kruntime->stack) < (unsigned int) arity)
+        return E_ARITY;
+    for (arity--; arity >= 0; arity--) {
+        Kob *kob;
+
+        kob = spop(&kruntime->stack);
+        if (*kob == T_NAME) {
+            if (tget(kruntime->nable, ((KName *) kob)->name, &kob) == 1)
+                kob = cpykob(kob);
+            else
+                return E_NAME;
+        }
+        args[arity] = kob;
+    }
+    return E_OK;
+}
+
+Error
 kinvert(KRuntime *kruntime)
 {
-    Kob *kob;
+    Kob *args[1];
+    Error error;
     KBnode *kbnode;
 
-    if (slength(kruntime->stack) < 1U)
-        return E_ARITY;
-    kob = kruntime->stack->kob;
-    if (*kob == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob)->name, &kob) == 1)
-            kruntime->stack->kob = kob = cpykob(kob);
-        else
-            return E_NAME;
-    }
-    if (*kob != T_BLIST)
+    error = kgetargs(kruntime, 1, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST)
         return E_TYPE;
-    kbnode = ((KBlist *) kob)->first;
+    kbnode = ((KBlist *) args[0])->first;
     while (kbnode != NULL) {
         kbnode->beat = !kbnode->beat;
         kbnode = kbnode->next;
     }
+    spush(&kruntime->stack, args[0]);
     return E_OK;
 }
 
 Error
 kclear(KRuntime *kruntime)
 {
-    Kob *kob;
+    Kob *args[1];
+    Error error;
     KBnode *kbnode;
 
-    if (slength(kruntime->stack) < 1U)
-        return E_ARITY;
-    kob = kruntime->stack->kob;
-    if (*kob == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob)->name, &kob) == 1)
-            kruntime->stack->kob = kob = cpykob(kob);
-        else
-            return E_NAME;
-    }
-    if (*kob != T_BLIST)
+    error = kgetargs(kruntime, 1, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST)
         return E_TYPE;
-    kbnode = ((KBlist *) kob)->first;
+    kbnode = ((KBlist *) args[0])->first;
     while (kbnode != NULL) {
         kbnode->beat = 0;
         kbnode = kbnode->next;
     }
+    spush(&kruntime->stack, args[0]);
     return E_OK;
 }
 
 Error
 kor(KRuntime *kruntime)
 {
-    Kob *kob_a, *kob_b;
+    Kob *args[2];
+    Error error;
     KBnode *kbnode_a, *kbnode_b;
 
-    if (slength(kruntime->stack) < 2U)
-        return E_ARITY;
-    kob_b = kruntime->stack->kob;
-    kob_a = kruntime->stack->next->kob;
-    if (*kob_b == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kob_b = cpykob(kob_b);
-        else
-            return E_NAME;
-    }
-    if (*kob_a == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
-            kob_a = cpykob(kob_a);
-        else
-            return E_NAME;
-    }
-    if (*kob_a != T_BLIST  ||  *kob_b != T_BLIST)
+    error = kgetargs(kruntime, 1, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST  ||  *args[1] != T_BLIST)
         return E_TYPE;
-    kbnode_a = ((KBlist *) kob_a)->first;
-    kbnode_b = ((KBlist *) kob_b)->first;
+    kbnode_a = ((KBlist *) args[0])->first;
+    kbnode_b = ((KBlist *) args[1])->first;
     while (kbnode_a != NULL  &&  kbnode_b != NULL) {
         kbnode_a->beat = kbnode_a->beat | kbnode_b->beat;
         kbnode_a = kbnode_a->next;
         kbnode_b = kbnode_b->next;
     }
-    kruntime->stack = kruntime->stack->next;
-    kruntime->stack->kob = kob_a;
-    delblist((KBlist **) &kob_b);
+    spush(&kruntime->stack, args[0]);
+    delblist((KBlist **) &args[1]);
     return E_OK;
 }
 
 Error
 kand(KRuntime *kruntime)
 {
-    Kob *kob_a, *kob_b;
+    Kob *args[2];
+    Error error;
     KBnode *kbnode_a, *kbnode_b;
 
-    if (slength(kruntime->stack) < 2U)
-        return E_ARITY;
-    kob_b = kruntime->stack->kob;
-    kob_a = kruntime->stack->next->kob;
-    if (*kob_b == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kruntime->stack->kob = kob_b = cpykob(kob_b);
-        else
-            return E_NAME;
-    }
-    if (*kob_a == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
-            kob_a = cpykob(kob_a);
-        else
-            return E_NAME;
-    }
-    if (*kob_a != T_BLIST  ||  *kob_b != T_BLIST)
+    error = kgetargs(kruntime, 1, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST  ||  *args[1] != T_BLIST)
         return E_TYPE;
-    kbnode_a = ((KBlist *) kob_a)->first;
-    kbnode_b = ((KBlist *) kob_b)->first;
+    kbnode_a = ((KBlist *) args[0])->first;
+    kbnode_b = ((KBlist *) args[1])->first;
     while (kbnode_a != NULL  &&  kbnode_b != NULL) {
         kbnode_a->beat = kbnode_a->beat & kbnode_b->beat;
         kbnode_a = kbnode_a->next;
         kbnode_b = kbnode_b->next;
     }
-    kruntime->stack = kruntime->stack->next;
-    kruntime->stack->kob = kob_a;
-    delblist((KBlist **) &kob_b);
+    spush(&kruntime->stack, args[0]);
+    delblist((KBlist **) &args[1]);
     return E_OK;
 }
 
 Error
 krepeat(KRuntime *kruntime)
 {
-    Kob *kob_a, *kob_b;
+    Kob *args[2];
+    Error error;
     KBlist *kblist;
 
-    if (slength(kruntime->stack) < 2U)
-        return E_ARITY;
-    kob_b = kruntime->stack->kob;
-    kob_a = kruntime->stack->next->kob;
-    if (*kob_b == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kob_b = cpykob(kob_b);
-        else
-            return E_NAME;
-    }
-    if (*kob_a == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
-            kob_a = cpykob(kob_a);
-        else
-            return E_NAME;
-    }
-    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER)
+    error = kgetargs(kruntime, 2, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST  ||  *args[1] != T_NUMBER)
         return E_TYPE;
-    kblist = cpyblist((KBlist *) kob_a);
-    for (; ((KNumber *) kob_b)->value > 1; ((KNumber *) kob_b)->value--)
-        blist_extend((KBlist *) kob_a, kblist);
-    delblist(&kblist);
-    kruntime->stack = kruntime->stack->next;
-    kruntime->stack->kob = kob_a;
-    delnumber((KNumber **) &kob_b);
+    kblist = cpyblist((KBlist *) args[0]);
+    for (; ((KNumber *) args[1])->value > 1; ((KNumber *) args[1])->value--)
+        blist_extend(kblist, (KBlist *) args[0]);
+    spush(&kruntime->stack, (Kob *) kblist);
+    delblist((KBlist **) &args[0]);
+    delnumber((KNumber **) &args[1]);
     return E_OK;
 }
 
 Error
 kpattern(KRuntime *kruntime)
 {
-    Kob *kob_a, *kob_b;
+    Kob *args[2];
+    Error error;
     KBlist *silence, *result;
     KBnode *kbnode;
 
-    if (slength(kruntime->stack) < 2U)
-        return E_ARITY;
-    kob_b = kruntime->stack->kob;
-    kob_a = kruntime->stack->next->kob;
-    if (*kob_b == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kob_b = cpykob(kob_b);
-        else
-            return E_NAME;
-    }
-    if (*kob_a == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
-            kob_a = cpykob(kob_a);
-        else
-            return E_NAME;
-    }
-    if (*kob_a != T_BLIST  ||  *kob_b != T_BLIST)
+    error = kgetargs(kruntime, 2, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST  ||  *args[1] != T_BLIST)
         return E_TYPE;
     silence = newblist();
-    kbnode = ((KBlist *) kob_a)->first;
+    kbnode = ((KBlist *) args[0])->first;
     while (kbnode != NULL) {
         blist_insert(silence, 0, 0);
         kbnode = kbnode->next;
     }
     result = newblist();
-    kbnode = ((KBlist *) kob_b)->first;
+    kbnode = ((KBlist *) args[1])->first;
     while (kbnode != NULL) {
         if (kbnode->beat)
-            blist_extend(result, (KBlist *) kob_a);
+            blist_extend(result, (KBlist *) args[0]);
         else
             blist_extend(result, silence);
         kbnode = kbnode->next;
     }
+    spush(&kruntime->stack, (Kob *) result);
     delblist(&silence);
-    kruntime->stack = kruntime->stack->next;
-    kruntime->stack->kob = (Kob *) result;
-    delblist((KBlist **) &kob_b);
-    delblist((KBlist **) &kob_a);
+    delblist((KBlist **) &args[0]);
+    delblist((KBlist **) &args[1]);
     return E_OK;
 }
 
 Error
 krleft(KRuntime *kruntime)
 {
-    Kob *kob_a, *kob_b;
+    Kob *args[2];
+    Error error;
     KBlist *kblist;
 
-    if (slength(kruntime->stack) < 2U)
-        return E_ARITY;
-    kob_b = kruntime->stack->kob;
-    kob_a = kruntime->stack->next->kob;
-    if (*kob_b == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kob_b = cpykob(kob_b);
-        else
-            return E_NAME;
-    }
-    if (*kob_a == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
-            kob_a = cpykob(kob_a);
-        else
-            return E_NAME;
-    }
-    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER)
+    error = kgetargs(kruntime, 2, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST  ||  *args[1] != T_NUMBER)
         return E_TYPE;
-    kblist = (KBlist *) kob_a;
-    for (; ((KNumber *) kob_b)->value > 0; ((KNumber *) kob_b)->value--)
+    kblist = (KBlist *) args[0];
+    for (; ((KNumber *) args[1])->value > 0; ((KNumber *) args[1])->value--)
         blist_insert(kblist, kblist->length, blist_remove(kblist, 0));
-    kruntime->stack = kruntime->stack->next;
-    kruntime->stack->kob = kob_a;
-    delnumber((KNumber **) &kob_b);
+    spush(&kruntime->stack, args[0]);
+    delnumber((KNumber **) &args[1]);
     return E_OK;
 }
 
 Error
 krright(KRuntime *kruntime)
 {
-    Kob *kob_a, *kob_b;
+    Kob *args[2];
+    Error error;
     KBlist *kblist;
 
-    if (slength(kruntime->stack) < 2U)
-        return E_ARITY;
-    kob_b = kruntime->stack->kob;
-    kob_a = kruntime->stack->next->kob;
-    if (*kob_b == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kob_b = cpykob(kob_b);
-        else
-            return E_NAME;
-    }
-    if (*kob_a == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
-            kob_a = cpykob(kob_a);
-        else
-            return E_NAME;
-    }
-    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER)
+    error = kgetargs(kruntime, 2, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST  ||  *args[1] != T_NUMBER)
         return E_TYPE;
-    kblist = (KBlist *) kob_a;
-    for (; ((KNumber *) kob_b)->value > 0; ((KNumber *) kob_b)->value--)
+    kblist = (KBlist *) args[0];
+    for (; ((KNumber *) args[1])->value > 0; ((KNumber *) args[1])->value--)
         blist_insert(kblist, 0, blist_remove(kblist, -1));
-    kruntime->stack = kruntime->stack->next;
-    kruntime->stack->kob = kob_a;
-    delnumber((KNumber **) &kob_b);
+    spush(&kruntime->stack, args[0]);
+    delnumber((KNumber **) &args[1]);
     return E_OK;
 }
 
 Error
 kpleft(KRuntime *kruntime)
 {
-    Kob *kob_a, *kob_b, *kob_c;
+    Kob *args[3];
+    Error error;
     KBlist *kblist;
 
-    if (slength(kruntime->stack) < 3U)
-        return E_ARITY;
-    kob_c = kruntime->stack->kob;
-    kob_b = kruntime->stack->next->kob;
-    kob_a = kruntime->stack->next->next->kob;
-    if (*kob_c == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_c)->name, &kob_c) == 1)
-            kob_c = cpykob(kob_c);
-        else
-            return E_NAME;
-    }
-    if (*kob_b == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kob_b = cpykob(kob_b);
-        else
-            return E_NAME;
-    }
-    if (*kob_a == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
-            kob_a = cpykob(kob_a);
-        else
-            return E_NAME;
-    }
-    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER  ||  *kob_c != T_BEAT)
+    error = kgetargs(kruntime, 3, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST  ||  *args[1] != T_NUMBER  ||  *args[2] != T_BEAT)
         return E_TYPE;
-    kblist = (KBlist *) kob_a;
-    for (; ((KNumber *) kob_b)->value > 0; ((KNumber *) kob_b)->value--)
-        blist_insert(kblist, kblist->length, ((KBeat *) kob_c)->value);
-    kruntime->stack = kruntime->stack->next->next;
-    delnumber((KNumber **) &kob_b);
-    delbeat((KBeat **) &kob_c);
+    kblist = (KBlist *) args[0];
+    for (; ((KNumber *) args[1])->value > 0; ((KNumber *) args[1])->value--)
+        blist_insert(kblist, kblist->length, ((KBeat *) args[2])->value);
+    spush(&kruntime->stack, args[0]);
+    delnumber((KNumber **) &args[1]);
+    delbeat((KBeat **) &args[2]);
     return E_OK;
 }
 
 Error
 kpright(KRuntime *kruntime)
 {
-    Kob *kob_a, *kob_b, *kob_c;
+    Kob *args[3];
+    Error error;
     KBlist *kblist;
 
-    if (slength(kruntime->stack) < 3U)
-        return E_ARITY;
-    kob_c = kruntime->stack->kob;
-    kob_b = kruntime->stack->next->kob;
-    kob_a = kruntime->stack->next->next->kob;
-    if (*kob_c == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_c)->name, &kob_c) == 1)
-            kob_c = cpykob(kob_c);
-        else
-            return E_NAME;
-    }
-    if (*kob_b == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kob_b = cpykob(kob_b);
-        else
-            return E_NAME;
-    }
-    if (*kob_a == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
-            kob_a = cpykob(kob_a);
-        else
-            return E_NAME;
-    }
-    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER  ||  *kob_c != T_BEAT)
+    error = kgetargs(kruntime, 3, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST  ||
+        *args[1] != T_NUMBER  ||
+        *args[2] != T_BEAT)
         return E_TYPE;
-    kblist = (KBlist *) kob_a;
-    for (; ((KNumber *) kob_b)->value > 0; ((KNumber *) kob_b)->value--)
-        blist_insert(kblist, 0, ((KBeat *) kob_c)->value);
-    kruntime->stack = kruntime->stack->next->next;
-    delnumber((KNumber **) &kob_b);
-    delbeat((KBeat **) &kob_c);
+    kblist = (KBlist *) args[0];
+    for (; ((KNumber *) args[1])->value > 0; ((KNumber *) args[1])->value--)
+        blist_insert(kblist, 0, ((KBeat *) args[2])->value);
+    spush(&kruntime->stack, args[0]);
+    delnumber((KNumber **) &args[1]);
+    delbeat((KBeat **) &args[2]);
     return E_OK;
 }
 
 Error
 ksubdiv(KRuntime *kruntime)
 {
-    Kob *kob_a, *kob_b, *kob_c;
+    Kob *args[3];
+    Error error;
 
-    if (slength(kruntime->stack) < 3U)
-        return E_ARITY;
-    kob_c = kruntime->stack->kob;
-    kob_b = kruntime->stack->next->kob;
-    kob_a = kruntime->stack->next->next->kob;
-    if (*kob_c == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_c)->name, &kob_c) == 1)
-            kob_c = cpykob(kob_c);
-        else
-            return E_NAME;
-    }
-    if (*kob_b == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_b)->name, &kob_b) == 1)
-            kob_b = cpykob(kob_b);
-        else
-            return E_NAME;
-    }
-    if (*kob_a == T_NAME) {
-        if (tget(kruntime->nable, ((KName *) kob_a)->name, &kob_a) == 1)
-            kob_a = cpykob(kob_a);
-        else
-            return E_NAME;
-    }
-    if (*kob_a != T_BLIST  ||  *kob_b != T_NUMBER  ||  *kob_c != T_NUMBER)
+    error = kgetargs(kruntime, 3, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST  ||
+        *args[1] != T_NUMBER  ||
+        *args[2] != T_NUMBER)
         return E_TYPE;
     return E_OK;
 }
