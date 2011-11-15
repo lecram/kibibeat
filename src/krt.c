@@ -37,27 +37,27 @@ kprocess(KRuntime *kruntime, char *token)
 
     if (!strcmp(token, "~"))
         error = kinvert(kruntime);
-    else if(!strcmp(token, "@"))
+    else if (!strcmp(token, "@"))
         error = kclear(kruntime);
-    else if(!strcmp(token, "|"))
+    else if (!strcmp(token, "|"))
         error = kor(kruntime);
-    else if(!strcmp(token, "&"))
+    else if (!strcmp(token, "&"))
         error = kand(kruntime);
-    else if(!strcmp(token, "*"))
+    else if (!strcmp(token, "*"))
         error = krepeat(kruntime);
-    else if(!strcmp(token, "^"))
+    else if (!strcmp(token, "^"))
         error = kpattern(kruntime);
-    else if(!strcmp(token, "<<"))
+    else if (!strcmp(token, "<<"))
         error = krleft(kruntime);
-    else if(!strcmp(token, ">>"))
+    else if (!strcmp(token, ">>"))
         error = krright(kruntime);
-    else if(!strcmp(token, "<"))
+    else if (!strcmp(token, "<"))
         error = kpleft(kruntime);
-    else if(!strcmp(token, ">"))
+    else if (!strcmp(token, ">"))
         error = kpright(kruntime);
-    else if(!strcmp(token, "/"))
+    else if (!strcmp(token, "/"))
         error = ksubdiv(kruntime);
-    else if(!strcmp(token, "="))
+    else if (!strcmp(token, "="))
         error = kset(kruntime);
     else {
         Kob *kob;
