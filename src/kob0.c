@@ -5,8 +5,8 @@
 
 #include "kob0.h"
 
-KNumber
-*newnumber(unsigned int value)
+KNumber *
+newnumber(unsigned int value)
 {
     KNumber *knumber;
 
@@ -16,8 +16,8 @@ KNumber
     return knumber;
 }
 
-KBeat
-*newbeat(int value)
+KBeat *
+newbeat(int value)
 {
     KBeat *kbeat;
 
@@ -27,8 +27,8 @@ KBeat
     return kbeat;
 }
 
-KBnode
-*newbnode(int value)
+KBnode *
+newbnode(int value)
 {
     KBnode *kbnode;
 
@@ -38,8 +38,8 @@ KBnode
     return kbnode;
 }
 
-KBlist
-*newblist()
+KBlist *
+newblist()
 {
     KBlist *kblist;
 
@@ -50,8 +50,8 @@ KBlist
     return kblist;
 }
 
-KName
-*newname(char *name)
+KName *
+newname(char *name)
 {
     KName *kname;
 
