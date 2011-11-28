@@ -12,7 +12,7 @@ endif
 
 I = include/
 
-objects = ker.o kob0.o kob1.o kps.o kop.o krt.o kib.o
+objects = ker.o kob0.o kob1.o ktrk.o kps.o kop.o krt.o kib.o
 
 dist : $(objects)
 	$(CC) -o kib$(BINEXT) $(objects) $(CLINK)
@@ -26,13 +26,16 @@ kob0.o : kob0.c $(I)kob0.h
 kob1.o : kob1.c $(I)kob0.h $(I)kob1.h
 	$(CC) -c $(CFLAGS) kob1.c
 
+ktrk.o : ktrk.c $(I)kob0.h $(I)ktrk.h
+	$(CC) -c $(CFLAGS) ktrk.c
+
 kps.o : kps.c $(I)kob0.h $(I)kps.h
 	$(CC) -c $(CFLAGS) kps.c
 
 kop.o : kop.c $(I)ker.h $(I)kob0.h $(I)kob1.h $(I)krt.h $(I)kop.h
 	$(CC) -c $(CFLAGS) kop.c
 
-krt.o : krt.c $(I)ker.h $(I)kob0.h $(I)kob1.h $(I)kps.h $(I)krt.h $(I)kop.h
+krt.o : krt.c $(I)ker.h $(I)kob0.h $(I)kob1.h $(I)ktrk.h $(I)kps.h $(I)krt.h $(I)kop.h
 	$(CC) -c $(CFLAGS) krt.c
 
 kib.o : kib.c $(I)ker.h $(I)kob0.h $(I)kob1.h $(I)krt.h

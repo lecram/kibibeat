@@ -4,6 +4,7 @@
 #include "ker.h"
 #include "kob0.h"
 #include "kob1.h"
+#include "ktrk.h"
 #include "kps.h"
 #include "krt.h"
 #include "kop.h"
@@ -16,6 +17,7 @@ newruntime()
     kruntime = (KRuntime *) malloc(sizeof(KRuntime));
     kruntime->stack = newstack();
     kruntime->nable = newnable();
+    kruntime->track = NULL;
     kruntime->comment = 0;
     return kruntime;
 }
@@ -25,6 +27,7 @@ delruntime(KRuntime **kruntime)
 {
     delstack(&(*kruntime)->stack);
     delnable(&(*kruntime)->nable);
+    deltrack(&(*kruntime)->track);
     free(*kruntime);
     *kruntime = NULL;
 }
@@ -59,6 +62,8 @@ kprocess(KRuntime *kruntime, char *token)
         error = ksubdiv(kruntime);
     else if (!strcmp(token, "="))
         error = kset(kruntime);
+    else if (!strcmp(token, "x"))
+        error = kmix(kruntime);
     else {
         Kob *kob;
 

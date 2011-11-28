@@ -6,6 +6,7 @@
 #include "ker.h"
 #include "kob0.h"
 #include "kob1.h"
+#include "ktrk.h"
 #include "krt.h"
 
 #define MAX_LINE_LEN 256
@@ -65,6 +66,7 @@ run(KReport *kreport)
     int i;
     KRuntime *kruntime;
     KBuffer *kbuffer;
+    KTrack *ktrack;
 
     fp = fopen(kreport->filename, "r");
     if (fp == NULL) {
@@ -95,6 +97,14 @@ run(KReport *kreport)
     printf("%s\n", kbuffer->buffer);
     repnable(kruntime->nable, kbuffer);
     printf("%s\n", kbuffer->buffer);
+    ktrack = kruntime->track;
+    while (ktrack != NULL) {
+        printf("delta: %u, note: %d, volume: %d\n",
+               ktrack->event->delta,
+               (int) ktrack->event->note,
+               (int) ktrack->event->volume);
+        ktrack = ktrack->next;
+    }
     delruntime(&kruntime);
     delbuffer(&kbuffer);
     fclose(fp);

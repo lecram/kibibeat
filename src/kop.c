@@ -3,6 +3,7 @@
 #include "ker.h"
 #include "kob0.h"
 #include "kob1.h"
+#include "ktrk.h"
 #include "krt.h"
 #include "kop.h"
 
@@ -281,5 +282,29 @@ kset(KRuntime *kruntime)
     tset(kruntime->nable, ((KName *) kob_a)->name, kob_b);
     kruntime->stack = kruntime->stack->next->next;
     delname((KName **) &kob_a);
+    return E_OK;
+}
+
+Error
+kmix(KRuntime *kruntime)
+{
+    Kob *args[4];
+    Error error;
+    KTrack *ktrack;
+
+    error = kgetargs(kruntime, 4, args);
+    if (error != E_OK) return error;
+    if (*args[0] != T_BLIST  ||  *args[1] != T_NUMBER  ||
+        *args[2] != T_NUMBER  ||  *args[3] != T_NUMBER)
+        return E_TYPE;
+    ktrack = trackfromblist((KBlist *) args[0],
+                            ((KNumber *) args[1])->value,
+                            (char) ((KNumber *) args[2])->value,
+                            (char) ((KNumber *) args[3])->value);
+    kruntime->track = trackmix(kruntime->track, ktrack);
+    delblist((KBlist **) &args[0]);
+    delnumber((KNumber **) &args[1]);
+    delnumber((KNumber **) &args[2]);
+    delnumber((KNumber **) &args[3]);
     return E_OK;
 }

@@ -10,3 +10,4 @@ Error kpleft(KRuntime *kruntime);
 Error kpright(KRuntime *kruntime);
 Error ksubdiv(KRuntime *kruntime);
 Error kset(KRuntime *kruntime);
+Error kmix(KRuntime *kruntime);

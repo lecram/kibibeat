@@ -1,6 +1,7 @@
 typedef struct {
     KStack *stack;
     KNable *nable;
+    KTrack *track;
     int comment;
 } KRuntime;
 
