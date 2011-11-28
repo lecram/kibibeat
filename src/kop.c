@@ -73,7 +73,7 @@ kor(KRuntime *kruntime)
     Error error;
     KBnode *kbnode_a, *kbnode_b;
 
-    error = kgetargs(kruntime, 1, args);
+    error = kgetargs(kruntime, 2, args);
     if (error != E_OK) return error;
     if (*args[0] != T_BLIST  ||  *args[1] != T_BLIST)
         return E_TYPE;
@@ -96,7 +96,7 @@ kand(KRuntime *kruntime)
     Error error;
     KBnode *kbnode_a, *kbnode_b;
 
-    error = kgetargs(kruntime, 1, args);
+    error = kgetargs(kruntime, 2, args);
     if (error != E_OK) return error;
     if (*args[0] != T_BLIST  ||  *args[1] != T_BLIST)
         return E_TYPE;
