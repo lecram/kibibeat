@@ -310,7 +310,7 @@ repstack(KStack *kstack, KBuffer *kbuffer)
     kstack = kstack->next;
     while (kstack != NULL) {
         *brep = ' ';
-        brep ++;
+        brep++;
         repkob(kstack->kob, brep);
         brep += repsizekob(kstack->kob);
         kstack = kstack->next;
