@@ -25,7 +25,7 @@ interactive(KReport *kreport)
     kruntime = newruntime();
     kbuffer = newbuffer();
 
-    while(1) {
+    while (1) {
         printf("> ");
         if (fgets(line, MAX_LINE_LEN, stdin) == NULL)
             break;
