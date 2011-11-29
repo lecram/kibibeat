@@ -59,7 +59,7 @@ interactive(KReport *kreport)
 void
 run(KReport *kreport)
 {
-    FILE *fp;
+    FILE *fp, *smf;
     char line[MAX_LINE_LEN];
     char token[MAX_TOKEN_LEN];
     char *c;
@@ -105,6 +105,9 @@ run(KReport *kreport)
                (int) ktrack->event->volume);
         ktrack = ktrack->next;
     }
+    smf = fopen("kibibeat.mid", "wb");
+    writesmf(kruntime->track, 360, smf);
+    fclose(smf);
     delruntime(&kruntime);
     delbuffer(&kbuffer);
     fclose(fp);

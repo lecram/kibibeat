@@ -15,3 +15,4 @@ KTrack *trackfromblist(KBlist *kblist, char note, char volume,
                        unsigned int ticksperbeat);
 void deltrack(KTrack **ktrack);
 KTrack *trackmix(KTrack *ktrack_a, KTrack *ktrack_b);
+void writesmf(KTrack *ktrack, unsigned int ticksperquarter, FILE *file);
