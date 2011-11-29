@@ -44,7 +44,11 @@ interactive(KReport *kreport)
                     token[i] = *c;
                 token[i] = '\0';
                 kreport->error = kprocess(kruntime, token);
-                if (kreport->error != E_OK) return;
+                if (kreport->error != E_OK) {
+                    delruntime(&kruntime);
+                    delbuffer(&kbuffer);
+                    return;
+                }
             }
             repstack(kruntime->stack, kbuffer);
             printf("%s\n", kbuffer->buffer);
@@ -89,7 +93,11 @@ run(KReport *kreport)
                 token[i] = *c;
             token[i] = '\0';
             kreport->error = kprocess(kruntime, token);
-            if (kreport->error != E_OK) return;
+            if (kreport->error != E_OK) {
+                delruntime(&kruntime);
+                delbuffer(&kbuffer);
+                return;
+            }
         }
     }
     repstack(kruntime->stack, kbuffer);
