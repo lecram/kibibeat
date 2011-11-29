@@ -103,7 +103,7 @@ trackmix(KTrack *ktrack_a, KTrack *ktrack_b)
     KTrack *mixtrack, *mixnode;
 
     restime = 0;
-    mixtrack == NULL;
+    mixtrack = NULL;
     while (ktrack_a != ktrack_b) {
         if (closer(ktrack_a, ktrack_b) == 0) {
             kevent = ktrack_a->event;
