@@ -212,13 +212,13 @@ repnumber(KNumber *knumber, char *buffer)
         return;
     }
     length = (size_t) log10((double) knumber->value) + 1;
-    snprintf(buffer, length + 1, "%d", knumber->value);
+    (void) snprintf(buffer, length + 1, "%u", knumber->value);
 }
 
 void
 repbeat(KBeat *kbeat, char *buffer)
 {
-    if (kbeat->value)
+    if (kbeat->value != 0)
         strcpy(buffer, "+");
     else
         strcpy(buffer, "-");
@@ -234,7 +234,7 @@ repblist(KBlist *kblist, char *buffer)
     *brep = '[';
     while (kbnode != NULL) {
         brep++;
-        if (kbnode->beat)
+        if (kbnode->beat != 0)
             *brep = '+';
         else
             *brep = '-';
@@ -292,7 +292,7 @@ cpyblist(KBlist *kblist)
     KBlist *other;
 
     other = newblist();
-    blist_extend(other, kblist);
+    (void) blist_extend(other, kblist);
     return other;
 }
 
@@ -308,7 +308,7 @@ cpykob(Kob *kob)
 {
     switch(*kob) {
         case EMPTY:
-            return NULL;
+            return (Kob *) NULL;
         case T_NUMBER:
             return (Kob *) cpynumber((KNumber *) kob);
         case T_BEAT:
