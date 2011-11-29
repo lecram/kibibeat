@@ -106,10 +106,10 @@ run(KReport *kreport)
     printf("%s\n", kbuffer->buffer);
     smf = fopen("kibibeat.mid", "wb");
     writesmf(kruntime->track, 360, smf);
-    fclose(smf);
+    (void) fclose(smf);
     delruntime(&kruntime);
     delbuffer(&kbuffer);
-    fclose(fp);
+    (void) fclose(fp);
 }
 
 int
