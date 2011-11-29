@@ -11,22 +11,22 @@ printreport(KReport kreport)
            kreport.token_id);
     switch(kreport.error) {
         case E_OK:
-            puts("Ok.");
+            (void) puts("Ok.");
             break;
         case E_TYPE:
-            puts("Type error.");
+            (void) puts("Type error.");
             break;
         case E_ARITY:
-            puts("Arity error.");
+            (void) puts("Arity error.");
             break;
         case E_NAME:
-            puts("Name error.");
+            (void) puts("Name error.");
             break;
         case E_SYNTAX:
-            puts("Syntax error.");
+            (void) puts("Syntax error.");
             break;
         case E_FILE:
-            puts("File error.");
+            (void) puts("File error.");
             break;
     }
 }
