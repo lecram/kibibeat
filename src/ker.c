@@ -9,7 +9,7 @@ printreport(KReport kreport)
            kreport.filename,
            kreport.line_id,
            kreport.token_id);
-    switch(kreport.error) {
+    switch (kreport.error) {
         case E_OK:
             (void) puts("Ok.");
             break;
