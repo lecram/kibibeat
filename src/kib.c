@@ -66,7 +66,6 @@ run(KReport *kreport)
     int i;
     KRuntime *kruntime;
     KBuffer *kbuffer;
-    KTrack *ktrack;
 
     fp = fopen(kreport->filename, "r");
     if (fp == NULL) {
@@ -97,14 +96,6 @@ run(KReport *kreport)
     printf("%s\n", kbuffer->buffer);
     repnable(kruntime->nable, kbuffer);
     printf("%s\n", kbuffer->buffer);
-    ktrack = kruntime->track;
-    while (ktrack != NULL) {
-        printf("delta: %u, note: %d, volume: %d\n",
-               ktrack->event->delta,
-               (int) ktrack->event->note,
-               (int) ktrack->event->volume);
-        ktrack = ktrack->next;
-    }
     smf = fopen("kibibeat.mid", "wb");
     writesmf(kruntime->track, 360, smf);
     fclose(smf);
