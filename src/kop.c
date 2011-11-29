@@ -299,9 +299,9 @@ kmix(KRuntime *kruntime)
         *args[2] != T_NUMBER  ||  *args[3] != T_NUMBER)
         return E_TYPE;
     ktrack = trackfromblist((KBlist *) args[0],
-                            ((KNumber *) args[1])->value,
+                            (char) ((KNumber *) args[1])->value,
                             (char) ((KNumber *) args[2])->value,
-                            (char) ((KNumber *) args[3])->value);
+                            ((KNumber *) args[3])->value);
     kruntime->track = trackmix(kruntime->track, ktrack);
     delblist((KBlist **) &args[0]);
     delnumber((KNumber **) &args[1]);
