@@ -180,7 +180,7 @@ repsizeblist(KBlist *kblist)
 size_t
 repsizename(KName *kname)
 {
-    return strlen(kname->name);
+    return strlen(kname->name) + 1;
 }
 
 
@@ -249,6 +249,8 @@ repblist(KBlist *kblist, char *buffer)
 void
 repname(KName *kname, char *buffer)
 {
+    *buffer = '$';
+    buffer++;
     strcpy(buffer, kname->name);
 }
 

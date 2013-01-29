@@ -57,7 +57,7 @@ delentry(KEntry **kentry)
 size_t
 repsizeentry(KEntry *kentry)
 {
-    return repsizekob(kentry->value) + strlen(kentry->name) + 2;
+    return repsizekob(kentry->value) + strlen(kentry->name) + 3;
 }
 
 void
@@ -65,6 +65,8 @@ repentry(KEntry *kentry, char *buffer)
 {
     char *brep = buffer;
 
+    *brep = '$';
+    brep++;
     strcpy(brep, kentry->name);
     brep += strlen(kentry->name);
     strcpy(brep, ": ");
