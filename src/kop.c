@@ -28,6 +28,9 @@ kgetargs(KRuntime *kruntime, int arity, Kob *args[])
     return E_OK;
 }
 
+/* BLIST ~
+ * Invert every beat in the blist.
+ */
 Error
 kinvert(KRuntime *kruntime)
 {
@@ -48,6 +51,9 @@ kinvert(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST @
+ * Clear every beat in the blist, setting it to -.
+ */
 Error
 kclear(KRuntime *kruntime)
 {
@@ -68,6 +74,10 @@ kclear(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST BLIST |
+ * Beatwise OR.
+ * The length of the result is the length of the shortest input!
+ */
 Error
 kor(KRuntime *kruntime)
 {
@@ -91,6 +101,10 @@ kor(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST BLIST &
+ * Beatwise AND.
+ * The length of the result is the length of the shortest input.
+ */
 Error
 kand(KRuntime *kruntime)
 {
@@ -114,6 +128,9 @@ kand(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST NUMBER *
+ * Expand the blist to repeat its content number times.
+ */
 Error
 krepeat(KRuntime *kruntime)
 {
@@ -134,6 +151,14 @@ krepeat(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST BLIST ^
+ * Expand the first blist to multiply its length by the length of the
+ *  second blist.
+ * For each + beat on the second blist, there will be a copy of the
+ *  first blist on the result.
+ * For each - beat on the second blist, there will be a cleared version
+ *  of the first blist on the result.
+ */
 Error
 kpattern(KRuntime *kruntime)
 {
@@ -168,6 +193,9 @@ kpattern(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST NUMBER <<
+ * Rotate the blist number times to the left.
+ */
 Error
 krleft(KRuntime *kruntime)
 {
@@ -187,6 +215,9 @@ krleft(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST NUMBER >>
+ * Rotate the blist number times to the right.
+ */
 Error
 krright(KRuntime *kruntime)
 {
@@ -206,6 +237,9 @@ krright(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST NUMBER BEAT <
+ * Pad blist to the left by inserting number beats to the right.
+ */
 Error
 kpleft(KRuntime *kruntime)
 {
@@ -226,6 +260,9 @@ kpleft(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST NUMBER BEAT >
+ * Pad blist to the right by inserting number beats to the left.
+ */
 Error
 kpright(KRuntime *kruntime)
 {
@@ -248,6 +285,9 @@ kpright(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST NUMBER NUMBER /
+ * Not yet implemented.
+ */
 Error
 ksubdiv(KRuntime *kruntime)
 {
@@ -263,6 +303,9 @@ ksubdiv(KRuntime *kruntime)
     return E_OK;
 }
 
+/* NAME OBJECT =
+ * Bind object to name.
+ */
 Error
 kset(KRuntime *kruntime)
 {
@@ -286,6 +329,12 @@ kset(KRuntime *kruntime)
     return E_OK;
 }
 
+/* BLIST NUMBER NUMBER NUMBER x
+ * Make a track with blist and add it to the current mix.
+ * The first number is the midi note to use for + beats.
+ * The second number is the midi volume to use for + beats.
+ * The third number is the number of ticks per beat.
+ */
 Error
 kmix(KRuntime *kruntime)
 {
