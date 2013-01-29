@@ -76,7 +76,7 @@ kclear(KRuntime *kruntime)
 
 /* BLIST BLIST |
  * Beatwise OR.
- * The length of the result is the length of the shortest input!
+ * The length of the result is the length of the shortest input.
  */
 Error
 kor(KRuntime *kruntime)

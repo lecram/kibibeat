@@ -1,8 +1,7 @@
-kibibeat - A stack-based language for percussive MIDI track generation
-======================================================================
+kibibeat - programmatically generating percussive MIDI tracks
+=============================================================
 
 kibibeat is a text-based MIDI drum sequencer. You create a percussive track programmatically using a domain specific language.
-
 kibibeat can't actually play music. It generates a Standard MIDI File that can be played by most music players.
 
 Tutorial
@@ -10,7 +9,7 @@ Tutorial
 
 A percussive track is a combination of synchronized tracks, each one played by a single instrument (e.g. a kick drum or a snare drum). In kibibeat you create these single-instrument tracks independently and then mix them to the main track.
 
-Each instrument track is represented by a Beat List, also known as blist. A [beat](http://en.wikipedia.org/wiki/Beat_(music)) is a unit of time determined by the music tempo, which is constant inside a blist. We mark the beats in which the instrument is attacked by plus signs (`+`). The other beats are represented by minus signs (`-`). A blist is represented by a sequence of beats enclosed by square brackets, like `[+-+-]`. You can insert other non-whitespace ASCII characters inside a blist to make it more readable (e.g. bar delimiters), like `[-+-+|--++]`. These characters will be ignored by kibibeat.
+Each instrument track is represented by a Beat List, also known as blist. A [beat](http://en.wikipedia.org/wiki/Beat_(music\)) is a unit of time determined by the music tempo, which is constant inside a blist. We mark the beats in which the instrument is attacked by plus signs (`+`). The other beats are represented by minus signs (`-`). A blist is represented by a sequence of beats enclosed by square brackets, like `[+-+-]`. You can insert other non-whitespace ASCII characters inside a blist to make it more readable (e.g. bar delimiters), like `[-+-+|--++]`. These characters will be ignored by kibibeat.
 
 kibibeat uses a stack-based language to let you perform operations on beats and other entities. Every operation is represented in [postfix notation](http://en.wikipedia.org/wiki/Reverse_Polish_notation), in which the operator follows all of its operands. For example, to repeat a pattern 4 times we use to repeat operator (`*`) like so:
 
@@ -97,7 +96,7 @@ Clear every beat in the blist, setting it to `-`.
 BLIST BLIST |
 ```
 Beatwise OR.
-The length of the result is the length of the shortest input!
+The length of the result is the length of the shortest input.
 
 * And (`&`)
 ```
@@ -117,8 +116,8 @@ Expand the blist to repeat its content number times.
 BLIST BLIST ^
 ```
 Expand the first blist to multiply its length by the length of the second blist.
-For each + beat on the second blist, there will be a copy of the first blist on the result.
-For each - beat on the second blist, there will be a cleared version of the first blist on the result.
+For each `+` beat on the second blist, there will be a copy of the first blist on the result.
+For each `-` beat on the second blist, there will be a cleared version of the first blist on the result.
 
 * Left Rotate (`<<`)
 ```
@@ -155,6 +154,6 @@ Bind object to name.
 BLIST NUMBER NUMBER NUMBER x
 ```
 Make a track with blist and add it to the current mix.
-The first number is the midi note to use for + beats.
-The second number is the midi volume to use for + beats.
+The first number is the midi note to use for `+` beats.
+The second number is the midi volume to use for `+` beats.
 The third number is the number of ticks per beat.
