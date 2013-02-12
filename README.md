@@ -11,7 +11,7 @@ A percussive track is a combination of synchronized tracks, each one played by a
 
 Each instrument track is represented by a Beat List, also known as blist. A [beat](http://en.wikipedia.org/wiki/Beat_(music\)) is a unit of time determined by the music tempo, which is constant inside a blist. We mark the beats in which the instrument is attacked by plus signs (`+`). The other beats are represented by minus signs (`-`). A blist is represented by a sequence of beats enclosed by square brackets, like `[+-+-]`. You can insert other non-whitespace ASCII characters inside a blist to make it more readable (e.g. bar delimiters), like `[-+-+|--++]`. These characters will be ignored by kibibeat.
 
-kibibeat uses a stack-based language to let you perform operations on beats and other entities. Every operation is represented in [postfix notation](http://en.wikipedia.org/wiki/Reverse_Polish_notation), in which the operator follows all of its operands. For example, to repeat a pattern 4 times we use to repeat operator (`*`) like so:
+kibibeat uses a stack-based language to let you perform operations on beats and other entities. Every operation is represented in [postfix notation](http://en.wikipedia.org/wiki/Reverse_Polish_notation), in which the operator follows all of its operands. For example, to repeat a pattern 2 times we use the operator (`*`) like so:
 
 ```
 [+--+] 2 *
