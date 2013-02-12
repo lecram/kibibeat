@@ -29,8 +29,8 @@ Once the blist for an instrument is defined, we can add it to the main track usi
 The mix operator has four operands:
 
 * The blist of the track;
-* The MIDI note number to be used in each + beat (e.g. 40 for a electric snare on the [General MIDI Standard Drum Map](http://en.wikipedia.org/wiki/File:GMStandardDrumMap.gif));
-* The MIDI volume to use for + beats (0-127);
+* The MIDI note number to be used in each `+` beat (e.g. 40 for a electric snare on the [General MIDI Standard Drum Map](http://en.wikipedia.org/wiki/File:GMStandardDrumMap.gif));
+* The MIDI volume to use for `+` beats (0-127);
 * The number of ticks per beat (currently there are always 360*120 ticks per second).
 
 We can also bind objects (such as a beat, a blist or a number) to names, making it easier to refer to then latter. Names should start with a dollar sign (`$`). The set operator (`=`) binds an object to a name.
