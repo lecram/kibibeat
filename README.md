@@ -11,7 +11,7 @@ A percussive track is a combination of synchronized tracks, each one played by a
 
 Each instrument track is represented by a Beat List, also known as blist. A [beat](http://en.wikipedia.org/wiki/Beat_(music\)) is a unit of time determined by the music tempo, which is constant inside a blist. We mark the beats in which the instrument is attacked by plus signs (`+`). The other beats are represented by minus signs (`-`). A blist is represented by a sequence of beats enclosed by square brackets, like `[+-+-]`. You can insert other non-whitespace ASCII characters inside a blist to make it more readable (e.g. bar delimiters), like `[-+-+|--++]`. These characters will be ignored by kibibeat.
 
-kibibeat uses a stack-based language to let you perform operations on beats and other entities. Every operation is represented in [postfix notation](http://en.wikipedia.org/wiki/Reverse_Polish_notation), in which the operator follows all of its operands. For example, to repeat a pattern 2 times we use the operator (`*`) like so:
+kibibeat uses a stack-based language to let you perform operations on beats and other entities. Every operation is represented in [postfix notation](http://en.wikipedia.org/wiki/Reverse_Polish_notation), in which the operator follows all of its operands. For example, to repeat a pattern two we use the times operator (`*`):
 
 ```
 [+--+] 2 *
@@ -31,9 +31,9 @@ The mix operator has four operands:
 * The blist of the track;
 * The MIDI note number to be used in each `+` beat (e.g. 40 for a electric snare on the [General MIDI Standard Drum Map](http://en.wikipedia.org/wiki/File:GMStandardDrumMap.gif));
 * The MIDI volume to use for `+` beats (0-127);
-* The number of ticks per beat (currently there are always 360*120 ticks per second).
+* The number of ticks per beat (currently kibibeat always assume 360*120 ticks per second).
 
-We can also bind objects (such as a beat, a blist or a number) to names, making it easier to refer to then latter. Names should start with a dollar sign (`$`). The set operator (`=`) binds an object to a name.
+We can also bind objects (such as a beat, a blist or a number) to names, making it easier to refer to then latter. Names should start with a dollar sign (`$`). The bind operator (`=`) binds an object to a name.
 
 ```
 $bar [+--+] =
@@ -143,7 +143,7 @@ BLIST NUMBER BEAT >
 ```
 Pad blist to the right by inserting number beats to the left.
 
-* Set (`=`)
+* Bind (`=`)
 ```
 NAME OBJECT =
 ```
@@ -154,6 +154,6 @@ Bind object to name.
 BLIST NUMBER NUMBER NUMBER x
 ```
 Make a track with blist and add it to the current mix.
-The first number is the midi note to use for `+` beats.
-The second number is the midi volume to use for `+` beats.
+The first number is the MIDI note to use for `+` beats.
+The second number is the MIDI volume to use for `+` beats.
 The third number is the number of ticks per beat.
